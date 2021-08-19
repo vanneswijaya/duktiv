@@ -1,4 +1,4 @@
-import { Project } from "./models.js";
+const { Project } = require("./models");
 
 const resolvers = {
   Query: {
@@ -17,4 +17,4 @@ const resolvers = {
   },
 };
 
-export default resolvers;
+module.exports = resolvers;
