@@ -3,22 +3,16 @@ import { Project } from "./models.js";
 const resolvers = {
   Query: {
     projects(parent, args, context, info) {
-      return Project.find()
-        .then((project) => {
-          return project;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      return Project.find();
     },
     project(parent, args, context, info) {
-      return Project.findOne({ _id: args.id })
-        .then((project) => {
-          return project;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      return Project.findOne({ _id: args.id });
+    },
+  },
+  Mutation: {
+    addProject(parent, args, context, info) {
+      const projectObj = new Project(args);
+      return projectObj.save();
     },
   },
 };

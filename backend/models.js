@@ -12,7 +12,6 @@ const ProjectSchema = new Schema({
   },
   tasks: {
     type: [String],
-    required: true,
   },
 });
 
