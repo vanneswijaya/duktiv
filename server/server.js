@@ -1,15 +1,14 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const mongoose = require("mongoose");
-const typeDefs = require("./schema");
-const resolvers = require("./resolvers");
+const schema = require("./schema");
 const dotenv = require("dotenv");
 
 let main = async () => {
   dotenv.config();
 
   const app = express();
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({ schema });
 
   await server.start();
   server.applyMiddleware({ app });
