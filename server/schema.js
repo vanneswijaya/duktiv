@@ -6,7 +6,6 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLID,
-  GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
 } = graphql;
@@ -132,6 +131,39 @@ const Mutation = new GraphQLObjectType({
         });
         subtask.save();
         Task.updateOne({ id: args.taskId }, { $push: { subtasks: subtask } });
+      },
+    },
+    deleteProject: {
+      type: ProjectType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Project.deleteOne({
+          id: args.id,
+        });
+      },
+    },
+    deleteTask: {
+      type: TaskType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Task.deleteOne({
+          id: args.id,
+        });
+      },
+    },
+    deleteSubtask: {
+      type: SubtaskType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Subtask.deleteOne({
+          id: args.id,
+        });
       },
     },
   },
