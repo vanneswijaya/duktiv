@@ -1,0 +1,8 @@
+query projects {
+  projects {
+    id
+    title
+    status
+    due
+  }
+}

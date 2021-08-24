@@ -1,0 +1,8 @@
+mutation addProject($title: String!, $due: String!, $status: String) {
+  addProject(title: $title, due: $due, status: $status) {
+    id
+    title
+    status
+    due
+  }
+}
