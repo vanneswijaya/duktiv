@@ -139,9 +139,7 @@ const Mutation = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
-        return Project.deleteOne({
-          id: args.id,
-        });
+        return Project.findByIdAndDelete(args.id);
       },
     },
     deleteTask: {
@@ -150,9 +148,7 @@ const Mutation = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
-        return Task.deleteOne({
-          id: args.id,
-        });
+        return Task.findByIdAndDelete(args.id);
       },
     },
     deleteSubtask: {
@@ -161,9 +157,7 @@ const Mutation = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
-        return Subtask.deleteOne({
-          id: args.id,
-        });
+        return Subtask.findByIdAndDelete(args.id);
       },
     },
   },
