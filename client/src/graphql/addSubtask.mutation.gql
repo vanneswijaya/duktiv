@@ -1,0 +1,8 @@
+mutation addSubtask($taskId: String!, $title: String!) {
+  addTask(taskId: $taskId, title: $title) {
+    id
+    title
+    status
+    due
+  }
+}

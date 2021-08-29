@@ -1,0 +1,11 @@
+query subtasks {
+  subtasks {
+    id
+    task {
+      id
+    }
+    title
+    status
+    due
+  }
+}

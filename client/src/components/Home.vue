@@ -1,28 +1,35 @@
 <template>
-  <div class="w-screen h-screen bg-yellow-300 flex flex-col items-center">
-    <p class="text-5xl">DUKTIV</p>
-    <div class="flex flex-col gap-y-10">
-      <input v-model="title" />
-      <input v-model="due" />
-      <input v-model="status" />
+  <div class="w-screen h-screen grid grid-cols-4">
+    <div class="col-span-1 bg-yellow-300 flex flex-col">
+      <p class="text-5xl pl-10 pt-10">DUKTIV</p>
+      <input class="mt-5 mx-10" v-model="title" />
       <button
-        @click="addProject(title, due, status)"
-        class="border-2 border-black"
+        @click="addProject(title)"
+        class="border-2 border-black mt-3 mx-10 cursor-pointer"
       >
         ADD PROJECT
       </button>
-    </div>
-    <ul>
-      <li v-for="project in projects" :key="project.id">
-        <p class="text-3xl">{{ project.title }}</p>
-        <button
-          @click="deleteProject(project.id)"
-          class="border-2 border-black"
+      <div class="flex flex-col gap-y-5 mt-5">
+        <div
+          v-for="project in projects"
+          :key="project.id"
+          class="relative px-10 hover:bg-white h-16 flex items-center"
+          :class="['tab', { active: currentTab == project.id }]"
+          @click="currentTab = project.id"
         >
-          DELETE
-        </button>
-      </li>
-    </ul>
+          <p class="text-3xl">{{ project.title }}</p>
+          <button
+            @click="deleteProject(project.id)"
+            class="absolute inset-y-0 right-0 p-2 cursor-pointer mr-10 bg-red-500 text-white my-2"
+          >
+            DELETE
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-3 bg-green-300">
+      <div v-for="task in tasks" :key="task.id">{{ task.title }}</div>
+    </div>
   </div>
 </template>
 
@@ -30,22 +37,28 @@
 import { ref } from "vue";
 import { useQuery, useResult, useMutation } from "@vue/apollo-composable";
 import queryProjects from "../graphql/projects.query.gql";
+import queryTasks from "../graphql/tasks.query.gql";
 import addProjectMutation from "../graphql/addProject.mutation.gql";
 import deleteProjectMutation from "../graphql/deleteProject.mutation.gql";
 
-const title = ref(null);
-const due = ref(null);
-const status = ref(null);
+const currentTab = ref(null);
 
-const { result } = useQuery(queryProjects);
-const projects = useResult(result, null, (data) => data.projects);
+const title = ref(null);
+
+const { result: projectResult } = useQuery(queryProjects);
+const projects = useResult(projectResult, null, (data) => data.projects);
+
+const { result: taskResult } = useQuery(queryTasks);
+const tasks = useResult(taskResult, null, (data) =>
+  data.tasks.filter((task) => task.project.id == currentTab.value)
+);
 
 const { mutate: addProjectGQL } = useMutation(addProjectMutation);
 const { mutate: deleteProjectGQL } = useMutation(deleteProjectMutation);
 
-function addProject(title, due, status) {
+function addProject(title) {
   addProjectGQL(
-    { title: title, due: due, status: status },
+    { title: title },
     {
       update: (cache, { data: { addProject } }) => {
         const data = cache.readQuery({ query: queryProjects });
@@ -71,3 +84,9 @@ function deleteProject(id) {
   );
 }
 </script>
+
+<style scoped>
+.tab.active {
+  background: #fff;
+}
+</style>

@@ -36,7 +36,7 @@ const TaskType = new GraphQLObjectType({
     project: {
       type: ProjectType,
       resolve(parent, args) {
-        return Project.findbyId(parent.projectId);
+        return Project.findById(parent.projectId);
       },
     },
     subtasks: {
@@ -58,7 +58,7 @@ const SubtaskType = new GraphQLObjectType({
     task: {
       type: TaskType,
       resolve(parent, args) {
-        return Project.findbyId(parent.taskId);
+        return Project.findById(parent.taskId);
       },
     },
   }),
@@ -73,6 +73,18 @@ const RootQuery = new GraphQLObjectType({
         return Project.find({});
       },
     },
+    tasks: {
+      type: new GraphQLList(TaskType),
+      resolve(parent, args) {
+        return Task.find({});
+      },
+    },
+    subtasks: {
+      type: new GraphQLList(SubtaskType),
+      resolve(parent, args) {
+        return Subtask.find({});
+      },
+    },
   },
 });
 
@@ -83,15 +95,12 @@ const Mutation = new GraphQLObjectType({
       type: ProjectType,
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
-        status: { type: GraphQLString, defaultValue: "unmarked" },
-        due: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
         return Project.create({
           title: args.title,
-          status: args.status,
-          due: args.due,
-          tasks: [],
+          status: "none",
+          due: null,
         });
       },
     },
@@ -100,15 +109,13 @@ const Mutation = new GraphQLObjectType({
       args: {
         projectId: { type: new GraphQLNonNull(GraphQLString) },
         title: { type: new GraphQLNonNull(GraphQLString) },
-        status: { type: GraphQLString, defaultValue: "unmarked" },
-        due: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
         let task = new Task({
           projectId: args.projectId,
           title: args.title,
-          status: args.status,
-          due: args.due,
+          status: "none",
+          due: null,
         });
         task.save();
         Project.updateOne({ id: args.projectId }, { $push: { tasks: task } });
@@ -119,15 +126,13 @@ const Mutation = new GraphQLObjectType({
       args: {
         taskId: { type: new GraphQLNonNull(GraphQLString) },
         title: { type: new GraphQLNonNull(GraphQLString) },
-        status: { type: GraphQLString, defaultValue: "unmarked" },
-        due: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(parent, args) {
         let subtask = new Subtask({
           taskId: args.taskId,
           title: args.title,
-          status: args.status,
-          due: args.due,
+          status: "none",
+          due: null,
         });
         subtask.save();
         Task.updateOne({ id: args.taskId }, { $push: { subtasks: subtask } });

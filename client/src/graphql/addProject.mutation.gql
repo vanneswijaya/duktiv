@@ -1,5 +1,5 @@
-mutation addProject($title: String!, $due: String!, $status: String) {
-  addProject(title: $title, due: $due, status: $status) {
+mutation addProject($title: String!) {
+  addProject(title: $title) {
     id
     title
     status
