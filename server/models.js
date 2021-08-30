@@ -20,22 +20,10 @@ const TaskSchema = new Schema(
   { timestamps: true }
 );
 
-const SubtaskSchema = new Schema(
-  {
-    taskId: String,
-    title: String,
-    status: String,
-    due: Date,
-  },
-  { timestamps: true }
-);
-
 const Project = mongoose.model("Project", ProjectSchema);
 const Task = mongoose.model("Task", TaskSchema);
-const Subtask = mongoose.model("Subtask", SubtaskSchema);
 
 module.exports = {
   Project,
   Task,
-  Subtask,
 };
