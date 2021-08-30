@@ -1,11 +1,20 @@
 module.exports = {
-  purge: { content: ['./public/**/*.html', './src/**/*.vue'] },
+  purge: { content: ["./public/**/*.html", "./src/**/*.vue"] },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: ["hover", "focus"],
+      colors: {
+        biru: "#3d405b",
+        birumuda: "#5FA8D3",
+        krem: "#f2cc8f",
+      },
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      scale: ["hover", "group-hover"],
+    },
   },
   plugins: [],
-}
+};

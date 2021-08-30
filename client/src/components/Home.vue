@@ -1,37 +1,43 @@
 <template>
   <div class="w-screen h-screen grid grid-cols-4">
-    <div class="col-span-1 bg-yellow-300 flex flex-col">
-      <p class="text-5xl pl-10 pt-10">DUKTIV</p>
-      <input class="mt-5 mx-10" v-model="projectTitle" />
+    <div class="col-span-1 bg-biru flex flex-col text-white">
+      <p class="text-6xl pl-10 pt-10 font-black">DUKTIV</p>
+      <input
+        class="mt-10 mx-10 h-12 px-5 text-2xl text-black rounded-xl"
+        v-model="projectTitle"
+      />
       <button
         @click="addProject(projectTitle)"
-        class="border-2 border-black mt-3 mx-10 cursor-pointer"
+        class="rounded-xl hover:scale-110 transition duration-500 ease-in-out bg-birumuda text-xl mt-3 mx-10 h-12 font-extrabold text-black cursor-pointer"
       >
         ADD PROJECT
       </button>
-      <div class="flex flex-col gap-y-5 mt-5">
+      <div class="flex flex-col gap-y-5 mt-10">
         <div
           v-for="project in projects"
           :key="project.id"
-          class="relative px-10 hover:bg-white h-16 flex items-center"
+          class="relative px-10 h-16 flex items-center"
           :class="['tab', { active: currentTab == project.id }]"
           @click="currentTab = project.id"
         >
           <p class="text-3xl">{{ project.title }}</p>
           <button
             @click="deleteProject(project.id)"
-            class="absolute inset-y-0 right-0 p-2 cursor-pointer mr-10 bg-red-500 text-white my-2"
+            class="absolute inset-y-0 right-0 p-2 cursor-pointer mr-10 bg-red-500 text-white my-2 rounded-xl"
           >
             DELETE
           </button>
         </div>
       </div>
     </div>
-    <div class="col-span-3 bg-green-300">
-      <input class="mt-5 mx-10" v-model="taskTitle" />
+    <div class="col-span-3 bg-krem">
+      <input
+        class="my-10 ml-10 h-12 px-5 text-2xl text-black rounded-xl"
+        v-model="taskTitle"
+      />
       <button
         @click="addTask(currentTab, taskTitle)"
-        class="border-2 border-black mt-3 mx-10 cursor-pointer"
+        class="rounded-xl bg-birumuda text-xl ml-5 h-12 px-10 font-extrabold text-black cursor-pointer"
       >
         ADD TASK
       </button>
@@ -43,7 +49,7 @@
         <p class="text-3xl">{{ task.title }}</p>
         <button
           @click="deleteTask(task.id)"
-          class="absolute inset-y-0 right-0 p-2 cursor-pointer mr-10 bg-red-500 text-white my-2"
+          class="absolute inset-y-0 right-0 p-2 cursor-pointer mr-10 bg-red-500 text-white my-2 rounded-xl"
         >
           DELETE
         </button>
@@ -143,6 +149,6 @@ function deleteTask(id) {
 
 <style scoped>
 .tab.active {
-  background: #fff;
+  background: #5fa8d3;
 }
 </style>
